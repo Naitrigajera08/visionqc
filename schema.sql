@@ -1,0 +1,64 @@
+CREATE DATABASE IF NOT EXISTS visionqc1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE visionqc1;
+
+CREATE TABLE IF NOT EXISTS users (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(120) NOT NULL,
+ email VARCHAR(190) NOT NULL UNIQUE,
+ password_hash VARCHAR(255) NOT NULL,
+ role VARCHAR(30) NOT NULL DEFAULT 'operator',
+ active TINYINT(1) NOT NULL DEFAULT 1,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS products (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ product_code VARCHAR(80) NOT NULL UNIQUE,
+ name VARCHAR(160) NOT NULL,
+ unit_price DECIMAL(12,2) NOT NULL DEFAULT 0,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS detections (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ detection_code VARCHAR(40) NOT NULL UNIQUE,
+ product_id VARCHAR(80) NOT NULL,
+ product_name VARCHAR(160) NOT NULL,
+ category VARCHAR(40) NOT NULL,
+ line_name VARCHAR(100) NOT NULL DEFAULT '',
+ camera VARCHAR(80) NOT NULL,
+ confidence DECIMAL(5,2) NOT NULL,
+ status VARCHAR(20) NOT NULL,
+ estimated_loss DECIMAL(12,2) NOT NULL DEFAULT 0,
+ detected_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ KEY idx_detected_at(detected_at), KEY idx_category(category), KEY idx_status(status)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS alerts (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ severity VARCHAR(20) NOT NULL,
+ message VARCHAR(500) NOT NULL,
+ source VARCHAR(120) NOT NULL DEFAULT 'VisionQC',
+ status VARCHAR(20) NOT NULL DEFAULT 'Open',
+ created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ KEY idx_alerts_status_created(status,created_at)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS machines (
+ machine_code VARCHAR(40) PRIMARY KEY,
+ name VARCHAR(120) NOT NULL,
+ status VARCHAR(20) NOT NULL DEFAULT 'Running',
+ health_score DECIMAL(5,2) NOT NULL DEFAULT 100,
+ availability DECIMAL(5,2) NOT NULL DEFAULT 100,
+ updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+INSERT IGNORE INTO products(product_code,name,unit_price) VALUES
+('P-101','Brake Disc',1450),('P-102','Ceramic Insulator',620),('P-103','Steel Gear',890),
+('P-104','Glass Bottle',45),('P-105','PCB Board',380),('P-106','Piston Ring',275),
+('P-107','Alloy Wheel',3200),('P-108','Ball Bearing',520);
+
+INSERT IGNORE INTO machines(machine_code,name,status,health_score,availability) VALUES
+('CNC-L01','CNC Lathe L-01','Running',96,94),('PRESS-P02','Press Line P-02','Running',81,88),
+('CAST-C03','Casting Unit C-03','Maintenance',58,79),('CONV-A','Conveyor A','Running',98,97);
