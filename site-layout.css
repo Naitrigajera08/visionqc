@@ -1,0 +1,87 @@
+.site-header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    min-height:68px;
+    padding:0 clamp(18px,4vw,52px);
+    border-bottom:1px solid #5d402e;
+    background:#79563c;
+    color:#fff8ef;
+}
+.site-header-brand {
+    color:#fff8ef;
+    font-size:14px;
+    font-weight:800;
+    letter-spacing:.04em;
+    text-decoration:none;
+}
+.site-header-nav {
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:16px;
+}
+.site-header-nav a {
+    color:#f4e8dc;
+    font-size:12px;
+    font-weight:650;
+    text-decoration:none;
+}
+.site-header-nav a:hover,.site-header-nav a:focus-visible {
+    color:#fff;
+    text-decoration:underline;
+    text-underline-offset:3px;
+}
+.site-footer {
+    margin-top:auto;
+    border-top:1px solid #5d402e;
+    background:#79563c;
+    color:#f4e8dc;
+    font:12px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+.site-footer-inner {
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px 24px;
+    max-width:1480px;
+    margin:0 auto;
+    padding:18px clamp(16px,3vw,34px);
+}
+.site-footer-brand {
+    color:#fff8ef;
+    font-weight:750;
+    text-decoration:none;
+}
+.site-footer-copy {
+    margin:3px 0 0;
+    font-size:11px;
+}
+.site-footer-nav {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 16px;
+}
+.site-footer-nav a {
+    color:#f4e8dc;
+    font-size:11px;
+    font-weight:600;
+    text-decoration:none;
+}
+.site-footer-nav a:hover,.site-footer-nav a:focus-visible {
+    color:#fff;
+    text-decoration:underline;
+    text-underline-offset:3px;
+}
+.site-header a:focus-visible,.site-footer a:focus-visible {
+    outline:2px solid #f4e8dc;
+    outline-offset:3px;
+    border-radius:2px;
+}
+@media(max-width:620px) {
+    .site-header { align-items:flex-start; flex-direction:column; justify-content:center; padding:13px 18px; }
+    .site-header-nav { gap:8px 13px; }
+    .site-footer-inner { align-items:flex-start; flex-direction:column; }
+}
